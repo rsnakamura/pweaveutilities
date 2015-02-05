@@ -1,0 +1,7 @@
+* Repository Setup
+  - [ ] Install (needs internet connection)
+  - [ ] copy index-builder from commoncode
+  - [ ] git init
+  - [ ] setup github repo
+  - [ ] Search github, bitbucket, and pypi for other pweave utilities/extensions
+* 
