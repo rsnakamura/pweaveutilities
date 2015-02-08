@@ -17,8 +17,13 @@ setup(name='pweaveutilities',
       url = '',
       author_email="rsnakamura@acm.org",
       license = "MIT",
-      install_requires = 'pweave'.split(),
+      install_requires = 'pweave docopt schema'.split(),
       packages = find_packages(),
+      entry_points = """
+      [console_scripts]
+      finder=pweaveutilities.finder:main
+      mover=pweaveutilities.mover:main
+      """
       )
 
 # an example last line would be cpm= cpm.main: main

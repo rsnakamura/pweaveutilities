@@ -1,7 +1,14 @@
 * Repository Setup
   - [ ] Install (needs internet connection)
   - [ ] copy index-builder from commoncode
-  - [ ] git init
+  - [X] git init
   - [ ] setup github repo
   - [ ] Search github, bitbucket, and pypi for other pweave utilities/extensions
-* 
+  - [-] Copy template structure [3/6]
+    - [X] CHANGES
+    - [ ] docs/
+    - [X] LICENSE
+    - [X] MANIFEST.in
+    - [ ] README.rst
+    - [ ] setup.py
+

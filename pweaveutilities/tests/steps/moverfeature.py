@@ -1,0 +1,95 @@
+
+# python standard library
+import os
+import shutil
+# third party
+from behave import given, when, then
+from hamcrest import assert_that, contains
+# this package
+from pweaveutilities.generators import find
+from pweaveutilities.mover import move
+
+def setup_flat_files(source, target, sources):
+    base_path = '/tmp'
+    source_path = os.path.join(base_path, source)
+    target_path = os.path.join(base_path, target)
+    
+    # setup the source
+    if not os.path.isdir(source_path):
+        os.mkdir(source_path)
+     
+    for filename in sources:
+        with open(os.path.join(source_path, filename), 'w') as writer:
+            writer.write('')
+    if os.path.isdir(target_path):
+        shutil.rmtree(target_path)
+    return source_path, target_path
+
+@given("a flat file structure for the mover")
+def flat_files(context):
+    sources = "able.rst baker.rst charley.rst".split()
+    context.source, context.target = setup_flat_files('flatfiles', 'movedflats', sources)
+    context.expected = [os.path.join(context.target, name) for name in sources]
+    return
+
+@when("the mover is run")
+def run_mover(context):
+    move('*.rst', context.source, context.target)
+    return
+
+@then("the new file structure has the old files")
+def assert_moved(context):
+    found = sorted([name for name in find('*rst', context.target)])
+    assert_that(found,
+                contains(*context.expected))
+    return
+
+@then("the old file structure doesn't have the old files")
+def assert_moved(context):
+    for name in find('*.rst', 'flatfiles'):
+        assert False
+    return
+
+def setup_tree(source, target, sources):
+    base_path = '/tmp'
+    base_source = os.path.join(base_path, source)
+    target_path = os.path.join(base_path,
+                               target)
+    # setup the source
+    if not os.path.isdir(base_source):
+        os.mkdir(base_source)
+     
+    for filename in sources:
+        full_path = os.path.join(base_source, filename)
+        try:
+            with open(full_path, 'w') as writer:
+                writer.write('')
+        except IOError:
+            basename, filename = os.path.split(full_path)
+
+            os.makedirs(basename)
+            with open(full_path, 'w') as writer:
+                writer.write('')
+    if os.path.isdir(target_path):
+        shutil.rmtree(target_path)
+    return base_source, target_path
+
+@given("a tree structure for the mover")
+def tree_structure(context):
+    context.sources = ['a.rst',
+                        'child_1/b.rst',
+                        'child_1/c.rst',
+                        'child_2/child_3/d.rst']
+    context.source, context.target = setup_tree('root_source',
+                                        'root_target',
+                                    context.sources)
+    
+    return
+
+@then("the new tree file structure has the old files")
+def assert_tree(context):
+    for filename in context.sources:
+        target = os.path.join(context.target, filename)
+        assert_that(os.path.isfile(target),
+                    "'{0}' not found".format(target))
+    return
