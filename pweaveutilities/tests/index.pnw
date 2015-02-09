@@ -1,0 +1,13 @@
+Testing the Utilities
+=====================
+<<name='imports', echo=False>>=
+# this package
+from pweaveutilities.indexbuilder import create_toctree
+@
+
+These are the behavior-driven test.
+
+<<name='toctree', echo=False, results='sphinx'>>=
+create_toctree()
+@
+
