@@ -34,7 +34,7 @@ This will create the validation for the arguments.
 Arguments Class
 ~~~~~~~~~~~~~~~
 
-This is a class to (hopefully) make spelling errors easier to catch.
+This is a class to (hopefully) make spelling errors easier to catch. The attributes are the names of the options and arguments in the `docopt` dictionary.
 
 
 .. code:: python
@@ -55,35 +55,49 @@ This is a class to (hopefully) make spelling errors easier to catch.
 Glob From None
 ~~~~~~~~~~~~~~
 
-This is a function to convert the ``expression`` argument to a default based on whether the expectation is to match a glob or a regular expression (or not to set anything if the user passed in an *expression*).
+This is a function to convert the ``expression`` argument to a default based on whether the expectation is to match a glob or a regular expression (or not to set anything if the user passed in an *expression*). If the user didn't specify anything then the expression will be set to match everything. It wouldn't really make sense for someone to specify a regular expression and then not set the expression but I figured I had to handle the case where they did anyway.
+
+.. image:: figures/finder_glob_from_none.svg
 
 
 .. code:: python
 
-    def glob_from_none(argument, regex=False):
+    def glob_from_none(expresion, regex=False):
         """
         sets an expression to match all files if not given
     
         :param:
     
-         - `argument`: the <expression> passed in by the user
+         - `expression`: the <expression> passed in by the user
          - `regex`: Boolean set by --regex
     
-        :return: Argument if not None or '*' or '.*' depending on regex
+        :return: expression if not None or '*' or '.*' depending on regex
         """
-        if argument is None:
+        if expresion is None:
             if not regex:
                 return '*'
             return '.*'
-        return argument
+        return expresion
     
 
 
+
+This might seem like overkill, but it was originally meant to be used by the schema to validate the glob before I decided to allow a default regular expression as well as a default glob.
 
 The Schema
 ~~~~~~~~~~
 
 This is the *schema* to validate arguments given by the user.
+
+.. csv-table:: Arguments Schema
+   :header: Argument, Schema, Default
+
+   ``<expression>``, :math:`String \lor None`, None
+   ``--root``, :math:`Path \lor None`, None
+   ``--shallow``, :math:`True \lor False`, False
+   ``--regex``, :math:`True \lor False`, False
+
+.. highlight:: python
 
 
 .. code:: python
@@ -97,6 +111,13 @@ This is the *schema* to validate arguments given by the user.
 
 The Main
 --------
+
+The Main Procedure.
+
+   #. get and validate the command-line arguments
+   #. set finder to deep or shallow find based on arguments
+   #. set default matching expression if not given
+   #. generate the names
 
 
 .. code:: python
@@ -115,10 +136,8 @@ The Main
             find = pweaveutilities.generators.shallow_find
     
         # check if you need a default glob that matches all files
-        is_regex = arguments[Arguments.regex]
-        expression = arguments[Arguments.expression]
-        expression = glob_from_none(expression,
-                                    is_regex)
+        expresion = glob_from_none(arguments[Arguments.expresion],
+                                   arguments[Arguments.regex])
         # generate the names
         for name in find(expression=expression,
                          start=arguments[Arguments.root],

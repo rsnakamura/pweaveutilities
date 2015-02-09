@@ -36,22 +36,22 @@ class Arguments(object):
     shallow = "--shallow"
     regex = "--regex"
 
-def glob_from_none(argument, regex=False):
+def glob_from_none(expresion, regex=False):
     """
     sets an expression to match all files if not given
 
     :param:
 
-     - `argument`: the <expression> passed in by the user
+     - `expression`: the <expression> passed in by the user
      - `regex`: Boolean set by --regex
 
-    :return: Argument if not None or '*' or '.*' depending on regex
+    :return: expression if not None or '*' or '.*' depending on regex
     """
-    if argument is None:
+    if expresion is None:
         if not regex:
             return '*'
         return '.*'
-    return argument
+    return expresion
 
 schema = Schema({Arguments.expression: Or(None, str),
                  Arguments.root: Or(None, os.path.exists),
@@ -72,10 +72,8 @@ def main():
         find = pweaveutilities.generators.shallow_find
 
     # check if you need a default glob that matches all files
-    is_regex = arguments[Arguments.regex]
-    expression = arguments[Arguments.expression]
-    expression = glob_from_none(expression,
-                                is_regex)
+    expresion = glob_from_none(arguments[Arguments.expresion],
+                               arguments[Arguments.regex])
     # generate the names
     for name in find(expression=expression,
                      start=arguments[Arguments.root],

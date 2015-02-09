@@ -14,6 +14,7 @@ These are utilities to help we work with `Pweave`.
    Generators <generators.rst>
    Index Builder <indexbuilder.rst>
    The Mover <mover.rst>
+   Pweave Utilities (Read Me) <readme.rst>
 
 .. toctree::
    :maxdepth: 1

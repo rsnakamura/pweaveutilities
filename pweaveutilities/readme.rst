@@ -4,6 +4,8 @@ Pweave Utilities (Read Me)
 
 This code is meant to augment my use of `pweave <https://pypi.python.org/pypi/Pweave>`_, which has changed the way that I write python programs in a substantial way, but has also put me in the position of writing python code in a non-standard way. Python programmers who pull my code will likely say to themselves "What's with all these 'pnw' and 'rst' files?" (well, I've only heard it once, but I haven't written anything that's been widely shared). In writing this I've also discovered that there's more to *pweave* than I originally knew about so this will also serve to document what I've found in the hopes that I'll get better at using it.
 
+The updating code is hosted on `github <https://github.com/rsnakamura/pweaveutilities>`_.
+
 The Finder
 ----------
 
