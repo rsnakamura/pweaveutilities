@@ -7,7 +7,7 @@ This is a recursive file-finder that travels down a path tree looking for files 
 Usage:             finder [--shallow] [--regex] [<expression>] [--root=<root>]
 
 Arguments:    
-    <expressio>        Glob (or regex) to match files (e.g. "*.pnw"). Quotes are required to prevent shell-expansion.
+    <expression>        Glob (or regex) to match files (e.g. "*.pnw"). Quotes are required to prevent shell-expansion.
 
 Options:
     -s, --shallow      List only what's in the root (don't traverse down the tree).
@@ -35,7 +35,7 @@ class Arguments(object):
     root = "--root"
     shallow = "--shallow"
     regex = "--regex"
-    
+
 def glob_from_none(argument, regex=False):
     """
     sets an expression to match all files if not given

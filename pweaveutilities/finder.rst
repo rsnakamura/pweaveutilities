@@ -11,7 +11,7 @@ The Finder
     Usage:             finder [--shallow] [--regex] [<expression>] [--root=<root>]
     
     Arguments:    
-        <expressio>        Glob (or regex) to match files (e.g. "*.pnw"). Quotes are required to prevent shell-expansion.
+        <expression>        Glob (or regex) to match files (e.g. "*.pnw"). Quotes are required to prevent shell-expansion.
     
     Options:
         -s, --shallow      List only what's in the root (don't traverse down the tree).
@@ -31,6 +31,11 @@ The Schema
 
 This will create the validation for the arguments.
 
+Arguments Class
+~~~~~~~~~~~~~~~
+
+This is a class to (hopefully) make spelling errors easier to catch.
+
 
 .. code:: python
 
@@ -43,7 +48,18 @@ This will create the validation for the arguments.
         root = "--root"
         shallow = "--shallow"
         regex = "--regex"
-        
+    
+
+
+
+Glob From None
+~~~~~~~~~~~~~~
+
+This is a function to convert the ``expression`` argument to a default based on whether the expectation is to match a glob or a regular expression (or not to set anything if the user passed in an *expression*).
+
+
+.. code:: python
+
     def glob_from_none(argument, regex=False):
         """
         sets an expression to match all files if not given
@@ -61,6 +77,17 @@ This will create the validation for the arguments.
             return '.*'
         return argument
     
+
+
+
+The Schema
+~~~~~~~~~~
+
+This is the *schema* to validate arguments given by the user.
+
+
+.. code:: python
+
     schema = Schema({Arguments.expression: Or(None, str),
                      Arguments.root: Or(None, os.path.exists),
                      Arguments.shallow: Use(bool),
