@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.__iter__
+===============================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. automethod:: ShallowFind.__iter__

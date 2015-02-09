@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.reset
+============================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. automethod:: ShallowFind.reset

@@ -1,0 +1,6 @@
+pweaveutilities.mover.move
+==========================
+
+.. currentmodule:: pweaveutilities.mover
+
+.. autofunction:: move

@@ -1,0 +1,6 @@
+pweaveutilities.generators.concatenate
+======================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autofunction:: concatenate

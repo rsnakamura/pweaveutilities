@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.path
+===========================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autoattribute:: ShallowFind.path

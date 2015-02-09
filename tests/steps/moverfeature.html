@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mover Feature &mdash; Pweave Utilities 0.0.1dev documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.2.0/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Pweave Utilities 0.0.1dev documentation" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          Pweave Utilities</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.0.1dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../generators.html">Generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../indexbuilder.html">Index Builder</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Testing the Utilities</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Mover Feature</a><ul>
+<li><a class="reference internal" href="#scenario-flat-file-structure">Scenario: Flat file structure</a></li>
+<li><a class="reference internal" href="#scenario-a-tree-folder-structure">Scenario: A Tree folder structure</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/tests/steps/moverfeature.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="mover-feature">
+<h1>Mover Feature<a class="headerlink" href="#mover-feature" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># python standard library</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="c"># third party</span>
+<span class="kn">from</span> <span class="nn">behave</span> <span class="kn">import</span> <span class="n">given</span><span class="p">,</span> <span class="n">when</span><span class="p">,</span> <span class="n">then</span>
+<span class="kn">from</span> <span class="nn">hamcrest</span> <span class="kn">import</span> <span class="n">assert_that</span><span class="p">,</span> <span class="n">contains</span>
+<span class="c"># this package</span>
+<span class="kn">from</span> <span class="nn">pweaveutilities.generators</span> <span class="kn">import</span> <span class="n">find</span>
+<span class="kn">from</span> <span class="nn">pweaveutilities.mover</span> <span class="kn">import</span> <span class="n">move</span>
+</pre></div>
+</div>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Feature:</span><span class="nf"> A file-tree-structure mover.</span>
+<span class="nf"> </span><span class="k">Scenario:</span><span class="nf"> Flat file structure</span>
+<span class="k">   Given </span><span class="nf">a flat file structure for the mover</span>
+<span class="nf">   </span><span class="k">When </span><span class="nf">the mover is run</span>
+<span class="nf">   </span><span class="k">Then </span><span class="nf">the new file structure has the old files</span>
+<span class="nf">   </span><span class="k">And </span><span class="nf">the old file structure doesn&#39;t have the old files</span>
+
+<span class="nf"> </span><span class="k">Scenario:</span><span class="nf"> A Tree folder structure</span>
+<span class="k">   Given </span><span class="nf">a tree structure for the mover</span>
+<span class="nf">   </span><span class="k">When </span><span class="nf">the mover is run</span>
+<span class="nf">   </span><span class="k">Then </span><span class="nf">the new tree file structure has the old files</span>
+<span class="nf">   </span><span class="k">And </span><span class="nf">the old file structure doesn&#39;t have the old files</span>
+</pre></div>
+</div>
+<div class="section" id="scenario-flat-file-structure">
+<h2>Scenario: Flat file structure<a class="headerlink" href="#scenario-flat-file-structure" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setup_flat_files</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">sources</span><span class="p">):</span>
+    <span class="n">base_path</span> <span class="o">=</span> <span class="s">&#39;/tmp&#39;</span>
+    <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="c"># setup the source</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">source_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">source_path</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">target_path</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">source_path</span><span class="p">,</span> <span class="n">target_path</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nd">@given</span><span class="p">(</span><span class="s">&quot;a flat file structure for the mover&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">flat_files</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">sources</span> <span class="o">=</span> <span class="s">&quot;able.rst baker.rst charley.rst&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">setup_flat_files</span><span class="p">(</span><span class="s">&#39;flatfiles&#39;</span><span class="p">,</span> <span class="s">&#39;movedflats&#39;</span><span class="p">,</span> <span class="n">sources</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">]</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nd">@when</span><span class="p">(</span><span class="s">&quot;the mover is run&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">run_mover</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">move</span><span class="p">(</span><span class="s">&#39;*.rst&#39;</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nd">@then</span><span class="p">(</span><span class="s">&quot;the new file structure has the old files&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">assert_moved</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">find</span><span class="p">(</span><span class="s">&#39;*rst&#39;</span><span class="p">,</span> <span class="n">context</span><span class="o">.</span><span class="n">target</span><span class="p">)])</span>
+    <span class="n">assert_that</span><span class="p">(</span><span class="n">found</span><span class="p">,</span>
+                <span class="n">contains</span><span class="p">(</span><span class="o">*</span><span class="n">context</span><span class="o">.</span><span class="n">expected</span><span class="p">))</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nd">@then</span><span class="p">(</span><span class="s">&quot;the old file structure doesn&#39;t have the old files&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">assert_moved</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">find</span><span class="p">(</span><span class="s">&#39;*.rst&#39;</span><span class="p">,</span> <span class="s">&#39;flatfiles&#39;</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">False</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scenario-a-tree-folder-structure">
+<h2>Scenario: A Tree folder structure<a class="headerlink" href="#scenario-a-tree-folder-structure" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">setup_tree</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">sources</span><span class="p">):</span>
+    <span class="n">base_path</span> <span class="o">=</span> <span class="s">&#39;/tmp&#39;</span>
+    <span class="n">base_source</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+    <span class="n">target_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span>
+                               <span class="n">target</span><span class="p">)</span>
+    <span class="c"># setup the source</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">base_source</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">base_source</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_source</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="n">basename</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span>
+
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">basename</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+                <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">target_path</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">target_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">base_source</span><span class="p">,</span> <span class="n">target_path</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre> @given(&quot;a tree structure for the mover&quot;)
+ def tree_structure(context):
+     context.sources = [&#39;a.rst&#39;,
+                         &#39;child_1/b.rst&#39;,
+                         &#39;child_1/c.rst&#39;,
+                         &#39;child_2/child_3/d.rst&#39;]
+     context.source, context.target = setup_tree(&#39;root_source&#39;,
+                                         &#39;root_target&#39;,
+                                     context.sources)
+
+     return
+
+
+When the mover is run
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre> @then(&quot;the new tree file structure has the old files&quot;)
+ def assert_tree(context):
+     for filename in context.sources:
+         target = os.path.join(context.target, filename)
+         assert_that(os.path.isfile(target),
+                     &quot;&#39;{0}&#39; not found&quot;.format(target))
+     return
+
+
+
+And the old file structure doesn&#39;t have the old files
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, the cloistered monkey.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+pweaveutilities.indexbuilder.create_toctree
+===========================================
+
+.. currentmodule:: pweaveutilities.indexbuilder
+
+.. autofunction:: create_toctree

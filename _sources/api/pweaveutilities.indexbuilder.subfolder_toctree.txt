@@ -1,0 +1,6 @@
+pweaveutilities.indexbuilder.subfolder_toctree
+==============================================
+
+.. currentmodule:: pweaveutilities.indexbuilder
+
+.. autofunction:: subfolder_toctree

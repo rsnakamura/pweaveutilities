@@ -1,0 +1,6 @@
+pweaveutilities.generators.regex_filter
+=======================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autofunction:: regex_filter

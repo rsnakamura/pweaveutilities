@@ -1,0 +1,6 @@
+pweaveutilities.generators.shallow_find
+=======================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autofunction:: shallow_find

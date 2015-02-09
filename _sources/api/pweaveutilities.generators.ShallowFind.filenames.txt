@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.filenames
+================================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autoattribute:: ShallowFind.filenames

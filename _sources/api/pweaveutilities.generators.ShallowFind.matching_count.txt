@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.matching_count
+=====================================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autoattribute:: ShallowFind.matching_count

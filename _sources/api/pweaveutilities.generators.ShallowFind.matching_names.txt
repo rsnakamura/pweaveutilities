@@ -1,0 +1,6 @@
+pweaveutilities.generators.ShallowFind.matching_names
+=====================================================
+
+.. currentmodule:: pweaveutilities.generators
+
+.. autoattribute:: ShallowFind.matching_names

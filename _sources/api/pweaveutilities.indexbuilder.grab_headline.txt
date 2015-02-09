@@ -1,0 +1,6 @@
+pweaveutilities.indexbuilder.grab_headline
+==========================================
+
+.. currentmodule:: pweaveutilities.indexbuilder
+
+.. autofunction:: grab_headline
