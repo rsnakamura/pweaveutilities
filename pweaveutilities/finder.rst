@@ -26,10 +26,12 @@ The Finder
 
 This adds a command-line interface to the :ref:`find generator <find-generator>`.
 
-The Schema
-----------
+The Command Line Interface
+--------------------------
 
-This will create the validation for the arguments.
+This will create the command line arguments.
+
+.. _finder-arguments:
 
 Arguments Class
 ~~~~~~~~~~~~~~~
@@ -59,26 +61,12 @@ This is a function to convert the ``expression`` argument to a default based on 
 
 .. image:: figures/finder_glob_from_none.svg
 
+.. module:: pweaveutilities.finder
+.. autosummary::
+   :toctree: api
 
-.. code:: python
+   glob_from_none
 
-    def glob_from_none(expresion, regex=False):
-        """
-        sets an expression to match all files if not given
-    
-        :param:
-    
-         - `expression`: the <expression> passed in by the user
-         - `regex`: Boolean set by --regex
-    
-        :return: expression if not None or '*' or '.*' depending on regex
-        """
-        if expresion is None:
-            if not regex:
-                return '*'
-            return '.*'
-        return expresion
-    
 
 
 
@@ -102,15 +90,35 @@ This is the *schema* to validate arguments given by the user.
 
 .. code:: python
 
-    schema = Schema({Arguments.expression: Or(None, str),
-                     Arguments.root: Or(None, os.path.exists),
-                     Arguments.shallow: Use(bool),
-                     Arguments.regex: Use(bool)})
+    finder_schema_dict = {Arguments.expression: Or(None, str),
+                        Arguments.root: Or(None, os.path.exists),
+                        Arguments.shallow: Use(bool),
+                        Arguments.regex: Use(bool)}
+    schema = Schema(finder_schema_dict)
+
+
+
+Setup Finder
+------------
+
+This sets up the finder. It was originally part of the `main` function but I want to use it in other parts of the code too.
+
+.. autosummary::
+   :toctree: api
+
+   setup_finder
+
+
 
 
 
 The Main
 --------
+
+.. autosummary::
+   :toctree: api
+
+   main
 
 The Main Procedure.
 
@@ -127,21 +135,15 @@ The Main Procedure.
         The main entry point for the command-line find
         """
         # get and validate the arguments
-        arguments = docopt(__doc__, version='0.0.1')
+        arguments = docopt(__doc__, version=VERSION)
         arguments = schema.validate(arguments)
     
-        # decide if it will be a shallow or deep find
-        find = pweaveutilities.generators.find
-        if arguments[Arguments.shallow]:
-            find = pweaveutilities.generators.shallow_find
+        find, expression = setup_finder(arguments)
     
-        # check if you need a default glob that matches all files
-        expresion = glob_from_none(arguments[Arguments.expresion],
-                                   arguments[Arguments.regex])
         # generate the names
         for name in find(expression=expression,
                          start=arguments[Arguments.root],
-                         regex=is_regex):
+                         regex=arguments[Arguments.regex]):
             print(name)
         return
 

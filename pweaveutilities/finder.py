@@ -25,6 +25,7 @@ from schema import Schema, Or, Use
 
 # this package
 import pweaveutilities.generators
+from pweaveutilities import VERSION
 
 class Arguments(object):
     """
@@ -53,30 +54,45 @@ def glob_from_none(expresion, regex=False):
         return '.*'
     return expresion
 
-schema = Schema({Arguments.expression: Or(None, str),
-                 Arguments.root: Or(None, os.path.exists),
-                 Arguments.shallow: Use(bool),
-                 Arguments.regex: Use(bool)})
+finder_schema_dict = {Arguments.expression: Or(None, str),
+                    Arguments.root: Or(None, os.path.exists),
+                    Arguments.shallow: Use(bool),
+                    Arguments.regex: Use(bool)}
+schema = Schema(finder_schema_dict)
 
-def main():
+def setup_finder(arguments):
     """
-    The main entry point for the command-line find
-    """
-    # get and validate the arguments
-    arguments = docopt(__doc__, version='0.0.1')
-    arguments = schema.validate(arguments)
+    Chooses the find function and expression based on the arguments
 
+    :param:
+
+     - `arguments`: validated dictionary of arguments
+
+    :return: <find function> <glob-expression>
+    """
     # decide if it will be a shallow or deep find
     find = pweaveutilities.generators.find
     if arguments[Arguments.shallow]:
         find = pweaveutilities.generators.shallow_find
 
     # check if you need a default glob that matches all files
-    expresion = glob_from_none(arguments[Arguments.expresion],
-                               arguments[Arguments.regex])
+    expression = glob_from_none(arguments[Arguments.expression],
+                                arguments[Arguments.regex])
+    return find, expression
+
+def main():
+    """
+    The main entry point for the command-line find
+    """
+    # get and validate the arguments
+    arguments = docopt(__doc__, version=VERSION)
+    arguments = schema.validate(arguments)
+
+    find, expression = setup_finder(arguments)
+
     # generate the names
     for name in find(expression=expression,
                      start=arguments[Arguments.root],
-                     regex=is_regex):
+                     regex=arguments[Arguments.regex]):
         print(name)
     return

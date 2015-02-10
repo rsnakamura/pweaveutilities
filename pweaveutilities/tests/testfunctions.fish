@@ -17,3 +17,19 @@ function moverfeature
     cd ../
     behave features/mover.feature
 end
+
+function copierfeature
+    cd ../
+    Pweave -m copier.pnw
+    Ptangle copier.pnw
+    cd tests/steps
+    Ptangle copierfeature.pnw
+    Pweave -m copierfeature.pnw
+    cd ../
+    behave features/copier.feature
+end
+
+function testall
+    finderfeature
+    moverfeature
+end

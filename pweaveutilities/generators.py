@@ -140,7 +140,7 @@ def shallow_find(expression='*', start = None, regex=False):
         start = os.getcwd()
     names = (name for name in os.listdir(start))
     for name in filterer(names, expression):
-        yield name
+        yield os.path.join(start, name)
     return
 
 def concatenate(glob, start=None):
